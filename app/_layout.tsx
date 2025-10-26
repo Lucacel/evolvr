@@ -9,7 +9,14 @@ import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+
+import { fetchCurrentUser } from "@/networking/user/usersApi";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
 
 export const unstable_settings = {
   anchor: "(tabs)",
@@ -17,31 +24,51 @@ export const unstable_settings = {
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const [isReady, setIsReady] = useState(false);
+//create a query client instance
+const queryClient = new QueryClient();
 
-  const colorScheme = useColorScheme();
+function AuthenticatedLayout() {
+  const { data: currentUser, isLoading } = useQuery({
+    queryKey: ["me"],
+    queryFn: fetchCurrentUser,
+  });
 
   useEffect(() => {
-    if (isReady) {
-      SplashScreen.hide();
+    if (!isLoading) {
+      setTimeout(() => {
+        SplashScreen.hide();
+      }, 1000);
     }
-  }, [isReady]);
+  }, [isLoading]);
 
-  if (!isReady) {
+  useEffect(() => {
+    console.log("Current User:", currentUser);
+  }, [currentUser]);
+
+  if (isLoading) {
     return null;
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
+    <Stack>
+      {currentUser ? (
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="modal"
-          options={{ presentation: "modal", title: "Modal" }}
-        />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+      ) : (
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      )}
+    </Stack>
+  );
+}
+
+export default function RootLayout() {
+  const colorScheme = useColorScheme();
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <AuthenticatedLayout />
+        <StatusBar style="auto" />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
