@@ -5,37 +5,6 @@
 
 import { Platform } from "react-native";
 
-const raisin_black = "#272727";
-const mustard = "#FED766";
-const moonstone = "#009FB7";
-const dim_gray = "#696773";
-const antiflash_white = "#EFF1F3";
-
-export const Colors = {
-  light: {
-    text: raisin_black,
-    background: antiflash_white,
-    tint: moonstone,
-    icon: dim_gray,
-    tabIconDefault: dim_gray,
-    tabIconSelected: moonstone,
-    border: antiflash_white,
-    mustard,
-    moonstone,
-  },
-  dark: {
-    text: antiflash_white,
-    background: raisin_black,
-    tint: moonstone,
-    icon: dim_gray,
-    tabIconDefault: dim_gray,
-    tabIconSelected: moonstone,
-    border: raisin_black,
-    mustard,
-    moonstone,
-  },
-};
-
 export const Fonts = Platform.select({
   ios: {
     /** iOS `UIFontDescriptorSystemDesignDefault` */

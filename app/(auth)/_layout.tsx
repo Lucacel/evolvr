@@ -1,6 +1,11 @@
 import { Stack } from "expo-router";
+import { useEffect } from "react";
 
 export default function AuthLayout() {
+  useEffect(() => {
+    console.log("Auth Layout Mounted");
+  }, []);
+
   return (
     <Stack>
       {/* primary screen, the login screen */}

@@ -1,14 +1,8 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-import { Stack } from "expo-router";
+import "../global.css";
+
 import * as SplashScreen from "expo-splash-screen";
-import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
-import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useEffect } from "react";
 
 import { fetchCurrentUser } from "@/networking/user/usersApi";
@@ -17,6 +11,8 @@ import {
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
+import { Stack } from "expo-router";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export const unstable_settings = {
   anchor: "(tabs)",
@@ -34,10 +30,9 @@ function AuthenticatedLayout() {
   });
 
   useEffect(() => {
+    console.log("isLoading:", isLoading);
     if (!isLoading) {
-      setTimeout(() => {
-        SplashScreen.hide();
-      }, 1000);
+      SplashScreen.hide();
     }
   }, [isLoading]);
 
@@ -45,9 +40,18 @@ function AuthenticatedLayout() {
     console.log("Current User:", currentUser);
   }, [currentUser]);
 
-  if (isLoading) {
-    return null;
-  }
+  //TODO: add this back when app is not in dev mode
+  // if (isLoading) {
+  //   return (
+  //     <View className=" flex-1 justify-center items-center bg-antiflash_white dark:bg-raisin_black">
+  //       <Image
+  //         source={require("@/assets/images/LogoIconLight.png")}
+  //         style={{ width: 200, height: 200 }}
+  //         contentFit="contain"
+  //       />
+  //     </View>
+  //   );
+  // }
 
   return (
     <Stack>
@@ -61,14 +65,11 @@ function AuthenticatedLayout() {
 }
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <SafeAreaProvider>
         <AuthenticatedLayout />
-        <StatusBar style="auto" />
-      </ThemeProvider>
+      </SafeAreaProvider>
     </QueryClientProvider>
   );
 }
