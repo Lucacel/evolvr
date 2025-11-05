@@ -54,12 +54,12 @@ const EvolvrInput = (props: EvolvrInputProps) => {
       <Animated.Text
         pointerEvents="none"
         style={[animatedStyle]}
-        className="dark:color-antiflash_white color-raisin_black text-xl absolute z-10 left-2"
+        className="dark:color-antiflash_white color-raisin_black text-xl absolute z-10 left-4"
       >
         {props.placeholder}
       </Animated.Text>
       <View
-        className="flex flex-row border dark:border-antiflash_white rounded-md w-full relative h-14 justify-center px-2 items-center"
+        className="flex flex-row border dark:border-antiflash_white rounded-full w-full relative h-14 justify-center px-4 items-center"
         style={{
           position: "relative",
         }}

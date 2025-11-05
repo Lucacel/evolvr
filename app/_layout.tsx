@@ -1,6 +1,7 @@
 import "../global.css";
 
 import * as SplashScreen from "expo-splash-screen";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 import "react-native-reanimated";
 
 import { useEffect } from "react";
@@ -68,7 +69,9 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
-        <AuthenticatedLayout />
+        <KeyboardProvider>
+          <AuthenticatedLayout />
+        </KeyboardProvider>
       </SafeAreaProvider>
     </QueryClientProvider>
   );
