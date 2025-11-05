@@ -1,5 +1,6 @@
 import EvolvrButton from "@/components/EvolvrButton";
 import EvolvrInput from "@/components/EvolvrInput";
+import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
@@ -9,6 +10,9 @@ export default function LoginScreen() {
   useEffect(() => {
     console.log("Login Screen Mounted");
   }, []);
+
+  const router = useRouter();
+
   return (
     <SafeAreaView className="px-6 flex-1 w-full bg-antiflash_white dark:bg-raisin_black">
       <KeyboardAwareScrollView
@@ -26,7 +30,7 @@ export default function LoginScreen() {
         />
         <View className="flex w-full justify-center items-center mt-10">
           <EvolvrButton
-            title="Login"
+            title="Log In"
             onPress={() => console.log("Login Pressed")}
             className="h-14"
           />
@@ -35,7 +39,9 @@ export default function LoginScreen() {
             {"If you don't have an account, "}
             <Text
               className="text-moonstone font-bold text-lg"
-              onPress={() => console.log("Sign Up Pressed")}
+              onPress={() => {
+                router.push("/(auth)/register");
+              }}
             >
               Sign Up
             </Text>
